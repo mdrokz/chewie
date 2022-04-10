@@ -582,7 +582,9 @@ class ChewieController extends ChangeNotifier {
   }
 
   Future<void> play() async {
-    await videoPlayerController.play();
+    if (videoPlayerController.value.isInitialized) {
+      await videoPlayerController.play();
+    }
   }
 
   // ignore: avoid_positional_boolean_parameters
