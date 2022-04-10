@@ -126,14 +126,20 @@ class _ProgressBarPainter extends CustomPainter {
     required this.barHeight,
     required this.handleHeight,
     required this.drawShadow,
-  });
+  }) {
+    endp = value.bufferPercent;
+  }
 
   VlcPlayerValue value;
   ChewieProgressColors colors;
 
   final double barHeight;
   final double handleHeight;
+  final List<Map<double,double>> buffered = [];
   final bool drawShadow;
+
+  double startp = 0;
+  double endp = 0;
 
   @override
   bool shouldRepaint(CustomPainter painter) {
@@ -162,20 +168,24 @@ class _ProgressBarPainter extends CustomPainter {
     final double playedPart =
         playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
     if (value.isBuffering) {
-      // for (final DurationRange range in []) {
-      //   final double start = range.startFraction(value.duration) * size.width;
-      //   final double end = range.endFraction(value.duration) * size.width;
-      //   canvas.drawRRect(
-      //     RRect.fromRectAndRadius(
-      //       Rect.fromPoints(
-      //         Offset(start, baseOffset),
-      //         Offset(end, baseOffset + barHeight),
-      //       ),
-      //       const Radius.circular(4.0),
-      //     ),
-      //     colors.bufferedPaint,
-      //   );
-      // }
+      startp = endp;
+      endp = value.bufferPercent;
+      buffered.add({startp: endp});
+      for (final Map<double,double> range in buffered) {
+        
+        final double start = range.keys.first / value.duration.inMilliseconds * size.width;
+        final double end = range[0]! / value.duration.inMilliseconds * size.width;
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromPoints(
+              Offset(start, baseOffset),
+              Offset(end, baseOffset + barHeight),
+            ),
+            const Radius.circular(4.0),
+          ),
+          colors.bufferedPaint,
+        );
+      }
     }
 
     canvas.drawRRect(
