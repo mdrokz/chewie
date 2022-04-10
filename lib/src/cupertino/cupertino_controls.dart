@@ -14,8 +14,9 @@ import 'package:chewie/src/models/subtitle_model.dart';
 import 'package:chewie/src/notifiers/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
+
 
 class CupertinoControls extends StatefulWidget {
   const CupertinoControls({
@@ -38,7 +39,7 @@ class CupertinoControls extends StatefulWidget {
 class _CupertinoControlsState extends State<CupertinoControls>
     with SingleTickerProviderStateMixin {
   late PlayerNotifier notifier;
-  late VideoPlayerValue _latestValue;
+  late VlcPlayerValue _latestValue;
   double? _latestVolume;
   Timer? _hideTimer;
   final marginSize = 5.0;
@@ -48,7 +49,7 @@ class _CupertinoControlsState extends State<CupertinoControls>
   Duration? _subtitlesPosition;
   bool _subtitleOn = false;
 
-  late VideoPlayerController controller;
+  late VlcPlayerController controller;
 
   // We know that _chewieController is set in didChangeDependencies
   ChewieController get chewieController => _chewieController!;
@@ -369,7 +370,7 @@ class _CupertinoControlsState extends State<CupertinoControls>
   }
 
   GestureDetector _buildMuteButton(
-    VideoPlayerController controller,
+    VlcPlayerController controller,
     Color backgroundColor,
     Color iconColor,
     double barHeight,
@@ -380,10 +381,10 @@ class _CupertinoControlsState extends State<CupertinoControls>
         _cancelAndRestartTimer();
 
         if (_latestValue.volume == 0) {
-          controller.setVolume(_latestVolume ?? 0.5);
+          controller.setVolume(_latestVolume as int? ?? 0);
         } else {
-          _latestVolume = controller.value.volume;
-          controller.setVolume(0.0);
+          _latestVolume = controller.value.volume as double;
+          controller.setVolume(0);
         }
       },
       child: AnimatedOpacity(
@@ -415,7 +416,7 @@ class _CupertinoControlsState extends State<CupertinoControls>
   }
 
   GestureDetector _buildPlayPause(
-    VideoPlayerController controller,
+    VlcPlayerController controller,
     Color iconColor,
     double barHeight,
   ) {
@@ -536,7 +537,7 @@ class _CupertinoControlsState extends State<CupertinoControls>
   }
 
   GestureDetector _buildSpeedButton(
-    VideoPlayerController controller,
+    VlcPlayerController controller,
     Color iconColor,
     double barHeight,
   ) {
