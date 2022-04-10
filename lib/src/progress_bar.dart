@@ -167,31 +167,26 @@ class _ProgressBarPainter extends CustomPainter {
         value.position.inMilliseconds / value.duration.inMilliseconds;
     final double playedPart =
         playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
-    if (value.isBuffering) {
-      startp = endp;
-      print("STARTP:$startp");
-      print("ENDP:$endp");
-      endp = value.bufferPercent;
-      print("NEW:$endp");
-      buffered.add({startp: endp});
-      for (final Map<double,double> range in buffered) {
+    // if (value.isBuffering) {
+    //   startp = endp;
+    //   endp = value.bufferPercent;
+    //   buffered.add({startp: endp});
+    //   for (final Map<double,double> range in buffered) {
         
-        final double start = range.keys.first / value.duration.inMilliseconds * size.width;
-        final double end = range[0]! / value.duration.inMilliseconds * size.width;
-        print(start);
-        print(end);
-        canvas.drawRRect(
-          RRect.fromRectAndRadius(
-            Rect.fromPoints(
-              Offset(start, baseOffset),
-              Offset(end, baseOffset + barHeight),
-            ),
-            const Radius.circular(4.0),
-          ),
-          colors.bufferedPaint,
-        );
-      }
-    }
+    //     final double start = range.keys.first / value.duration.inMilliseconds * size.width;
+    //     final double end = range[0]! / value.duration.inMilliseconds * size.width;
+    //     canvas.drawRRect(
+    //       RRect.fromRectAndRadius(
+    //         Rect.fromPoints(
+    //           Offset(start, baseOffset),
+    //           Offset(end, baseOffset + barHeight),
+    //         ),
+    //         const Radius.circular(4.0),
+    //       ),
+    //       colors.bufferedPaint,
+    //     );
+    //   }
+    // }
 
     canvas.drawRRect(
       RRect.fromRectAndRadius(
