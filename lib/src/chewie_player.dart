@@ -533,12 +533,12 @@ class ChewieController extends ChangeNotifier {
     }
 
     if (autoPlay) {
-      videoPlayerController.addOnInitListener(() async {
+      videoPlayerController.addOnInitListener(() {
         if (fullScreenByDefault) {
           enterFullScreen();
         }
 
-        await videoPlayerController.play();
+        videoPlayerController.play();
       });
     }
 
