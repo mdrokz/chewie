@@ -43,11 +43,11 @@ class PlayerWithControls extends StatelessWidget {
             panEnabled: chewieController.zoomAndPan,
             scaleEnabled: chewieController.zoomAndPan,
             child: Center(
-              child: VlcPlayer(
+              child: SizedBox.expand(child: VlcPlayer(
                 controller: chewieController.videoPlayerController,
                 aspectRatio: chewieController.aspectRatio ??
                     chewieController.videoPlayerController.value.aspectRatio,
-              ),
+              )),
             ),
           ),
           if (chewieController.overlay != null) chewieController.overlay!,
