@@ -169,12 +169,17 @@ class _ProgressBarPainter extends CustomPainter {
         playedPartPercent > 1 ? size.width : playedPartPercent * size.width;
     if (value.isBuffering) {
       startp = endp;
+      print("STARTP:$startp");
+      print("ENDP:$endp");
       endp = value.bufferPercent;
+      print("NEW:$endp");
       buffered.add({startp: endp});
       for (final Map<double,double> range in buffered) {
         
         final double start = range.keys.first / value.duration.inMilliseconds * size.width;
         final double end = range[0]! / value.duration.inMilliseconds * size.width;
+        print(start);
+        print(end);
         canvas.drawRRect(
           RRect.fromRectAndRadius(
             Rect.fromPoints(
