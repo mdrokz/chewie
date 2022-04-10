@@ -524,8 +524,10 @@ class ChewieController extends ChangeNotifier {
         !videoPlayerController.autoInitialize &&
         !videoPlayerController.value.isInitialized) {
       videoPlayerController.addOnInitListener(() async {
-        await videoPlayerController.setLooping(looping);
-        await videoPlayerController.play();
+        if (videoPlayerController.value.isInitialized) {
+          await videoPlayerController.setLooping(looping);
+          await videoPlayerController.play();
+        }
       });
       if (!videoPlayerController.value.isInitialized) {
         await videoPlayerController.initialize();
@@ -533,12 +535,14 @@ class ChewieController extends ChangeNotifier {
     }
 
     if (autoPlay) {
-      videoPlayerController.addOnInitListener(() {
+      videoPlayerController.addOnInitListener(() async {
         if (fullScreenByDefault) {
           enterFullScreen();
         }
 
-        videoPlayerController.play();
+        if (videoPlayerController.value.isInitialized) {
+          videoPlayerController.play();
+        }
       });
     }
 
