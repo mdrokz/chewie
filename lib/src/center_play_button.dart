@@ -23,7 +23,7 @@ class CenterPlayButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      child: Center(
+      child: Row(children: [GestureDetector(onDoubleTap: () => print("left"),),Center(
         child: AnimatedOpacity(
           opacity: show ? 1.0 : 0.0,
           duration: const Duration(milliseconds: 300),
@@ -49,7 +49,7 @@ class CenterPlayButton extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      ),GestureDetector(onDoubleTap: () => print("right"))],
+    ));
   }
 }
